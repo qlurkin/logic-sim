@@ -1,3 +1,4 @@
+import { showMenu } from './menu.js'
 import { Color } from './svg.esm.js'
 
 export function Wire(a, b) {
@@ -75,7 +76,9 @@ function ui(canvas, uiConnector0, uiConnector1, wire) {
     }
 
     outline.on('contextmenu', event => {
-        destroy()
+        showMenu(event.offsetX, event.offsetY, [
+            {label: 'Delete', action: () => {destroy()}}
+        ])
         event.preventDefault()
         event.stopPropagation()
     })

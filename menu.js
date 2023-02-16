@@ -5,7 +5,6 @@ export function closeMenu() {
 }
 
 export function showMenu(x, y, items) {
-    console.log(items)
     menu.innerHTML = ''
     const ul = document.createElement('ul')
     menu.appendChild(ul)

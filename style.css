@@ -1,6 +1,7 @@
 body {
     font-family: 'Roboto Mono', monospace;
     font-weight: bold;
+    background-color: #353535;
 }
 
 .ghost {
@@ -9,6 +10,11 @@ body {
 
 .connector:hover, .input:hover {
     stroke: cyan;
+}
+
+#simulation {
+    width: 800px;
+    margin: 0 auto;
 }
 
 svg text {
@@ -55,4 +61,19 @@ svg text::selection {
 
 #menu ul li:hover {
     background-color: #ccc;
+}
+
+#buttons {
+    width: 800px;
+    margin: 0 auto;
+}
+
+#buttons button {
+    display: inline-block;
+    background-color: #555;
+    color: #ccc;
+    margin: 0;
+    border: 1px solid black;
+    padding: 0.3rem 0.5rem;
+    font-weight: bold;
 }
