@@ -25,12 +25,12 @@ function AND() {
 }
 
 function ui(canvas, x, y, logic) {
-    UiChip(canvas, 'AND', x, y, logic.inputs, logic.outputs)
+    return UiChip(canvas, 'AND', logic.inputs, logic.outputs).move(x, y)
 }
 
 function create(canvas, x, y) {
     const logic = AND()
-    ui(canvas, x, y, logic)
+    return ui(canvas, x, y, logic)
 }
 
 export default {

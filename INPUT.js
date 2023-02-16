@@ -11,7 +11,7 @@ function Input() {
 function ui(canvas, y, logic) {
     const group = canvas.group()
     const line = group.line(20, y, 36, y).stroke({color: 'black', width: 3})
-    UiConnector(group, 36, y, logic.connector)
+    UiConnector(group, 16, 0, logic.connector, false).move(20, y)
     const big = group.circle(20).center(20, y).addClass('input')
 
     logic.connector.connect(state => {
