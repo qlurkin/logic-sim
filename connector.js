@@ -22,7 +22,7 @@ export function Connector() {
     }
 }
 
-export function UiConnector(group, rx, ry, connector, isInput) {
+export function UiConnector(group, rx, ry, connector) {
     const circle = group.circle(10).addClass('connector')
     const position = observable({x: rx, y: ry})
 
@@ -51,8 +51,7 @@ export function UiConnector(group, rx, ry, connector, isInput) {
             circle.fire('destroy')
             circle.remove()
             connector.destroy()
-        },
-        isInput: () => isInput
+        }
     }
 
     that.move = (x, y) => {

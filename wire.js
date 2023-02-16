@@ -1,32 +1,24 @@
-import {timing} from './config.js'
 import { Color } from './svg.esm.js'
 
-
-export function Wire(in0, out) {
-    function inObserver(state) {
-        setTimeout(() => {
-            out.setState(state)
-        }, timing)
-        
+export function Wire(a, b) {
+    function aObserver(state) {
+        b.setState(state)
     }
+    a.connect(aObserver)
 
-    in0.connect(inObserver)
-
-    function outObserver() {
-        setTimeout(() => {
-            out.setState(in0.getState())
-        }, timing)
+    function bObserver(state) {
+        a.setState(state)
     }
-    out.connect(outObserver)
+    b.connect(bObserver)
 
     return {
         destroy: () => {
-            in0.disconnect(inObserver)
-            out.disconnect(outObserver)
-            out.reset()
+            a.disconnect(aObserver)
+            b.disconnect(bObserver)
+            a.reset()
+            b.reset()
         },
-        inputs: [in0],
-        outputs: [out]
+        ends: [a, b]
     }
 }
 
@@ -80,10 +72,8 @@ function ui(canvas, uiConnector0, uiConnector1, wire) {
 }
 
 function create(canvas, uiConnector0, uiConnector1) {
-    const uiConnectorIn = uiConnector0.isInput() ? uiConnector1 : uiConnector0
-    const uiConnectorOut = uiConnector0.isInput() ? uiConnector0 : uiConnector1
-    const logic = Wire(uiConnectorIn.connector, uiConnectorOut.connector)
-    return ui(canvas, uiConnectorIn, uiConnectorOut, logic)
+    const logic = Wire(uiConnector0.connector, uiConnector1.connector)
+    return ui(canvas, uiConnector0, uiConnector1, logic)
 }
 
 export default {

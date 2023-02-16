@@ -26,13 +26,13 @@ export function UiChip(canvas, label, inputs, outputs, color) {
 
     let connectorRelativeY = -(inputs.length - 1) * step
     for(const connector of inputs) {
-        uiConnectors.push(UiConnector(group, -boxWidth/2, connectorRelativeY, connector, true))
+        uiConnectors.push(UiConnector(group, -boxWidth/2, connectorRelativeY, connector))
         connectorRelativeY += step*2
     }
 
     connectorRelativeY = -(outputs.length - 1) * step
     for(const connector of outputs) {
-        uiConnectors.push(UiConnector(group, boxWidth/2, connectorRelativeY, connector, false))
+        uiConnectors.push(UiConnector(group, boxWidth/2, connectorRelativeY, connector))
         connectorRelativeY += step*2
     }
 

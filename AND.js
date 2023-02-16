@@ -17,6 +17,7 @@ function AND() {
 
     in0.connect(observer)
     in1.connect(observer)
+    out.connect(observer)
 
     return {
         inputs: [in0, in1],

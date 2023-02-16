@@ -14,6 +14,7 @@ export function NOT() {
     }
 
     in0.connect(observer)
+    out.connect(observer)
 
     return {
         inputs: [in0],

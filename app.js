@@ -29,7 +29,6 @@ canvas.on('connector_clicked', event => {
         startWire = connector
     }
     else {
-        if(connector.isInput() === startWire.isInput()) return
         wire.create(wires, startWire, connector)
         startWire = null
     }
