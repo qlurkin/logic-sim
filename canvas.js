@@ -35,7 +35,7 @@ export function snapY(y) {
 
 export const canvas = SVG().addTo('#simulation').size(outerWidth(), outerHeight())
 
-export function init() {
+function init() {
     canvas.clear()
     document.body.style.width = `${outerWidth()}px`
     const border = canvas.rect(outerWidth(), outerHeight()).fill('#222')
@@ -56,3 +56,5 @@ export function init() {
         inputSide, outputSide, workspace, wires
     }
 }
+
+export const {inputSide, outputSide, workspace, wires} = init()

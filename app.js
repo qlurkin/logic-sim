@@ -1,4 +1,4 @@
-import {canvas, init} from './canvas.js'
+import {canvas, inputSide, outputSide, workspace, wires} from './canvas.js'
 import AND from './AND.js'
 import NOT from './NOT.js'
 import INPUT from './INPUT.js'
@@ -6,8 +6,6 @@ import OUTPUT from './OUTPUT.js'
 import wire from './wire.js'
 import { showMenu } from './menu.js'
 import free_connector from './free_connector.js'
-
-const {inputSide, outputSide, workspace, wires} = init()
 
 workspace.on('click', event => {
     free_connector.create(canvas, event.offsetX, event.offsetY)
@@ -35,7 +33,7 @@ canvas.on('connector_clicked', event => {
         startWire = connector
     }
     else {
-        wire.create(wires, startWire, connector)
+        wire.create(startWire, connector)
         startWire = null
     }
 })

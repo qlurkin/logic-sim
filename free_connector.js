@@ -22,6 +22,7 @@ function ui(canvas, logic) {
     const uiConnector = UiConnector(group, 0, 0, logic.connector)
 
     const that = {
+        uiConnector,
         x: () => _x,
         y: () => _y,
         on: (eventType, handler) => {
@@ -44,7 +45,7 @@ function ui(canvas, logic) {
         }
     }
 
-    draggable(that)
+    draggable(that, false)
 
     that.on('contextmenu', event => {
         showMenu(event.offsetX, event.offsetY, [
