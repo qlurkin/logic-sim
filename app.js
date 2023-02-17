@@ -8,7 +8,11 @@ import { showMenu } from './menu.js'
 import free_connector from './free_connector.js'
 
 workspace.on('click', event => {
-    free_connector.create(canvas, event.offsetX, event.offsetY)
+    const fc = free_connector.create(canvas, event.offsetX, event.offsetY)
+    if(startWire) {
+        wire.create(startWire, fc.uiConnector)
+        startWire = fc.uiConnector
+    }
 })
 
 inputSide.on('click', event => {
@@ -26,16 +30,31 @@ outputSide.on('click', event => {
 })
 
 let startWire = null
+const ghostLine = canvas.line(0, 0, 0, 0).stroke({width: 3, color: 'black', opacity: 0}).addClass('ghost')
+function moveGhostLine(event) {
+    ghostLine.plot(startWire.x(), startWire.y(), event.offsetX, event.offsetY)
+}
+function abortWire() {
+    startWire = null
+    ghostLine.stroke({opacity: 0})
+    workspace.off('mousemove', moveGhostLine)
+}
 
 canvas.on('connector_clicked', event => {
     const connector = event.detail
     if(!startWire) {
         startWire = connector
+        ghostLine.stroke({opacity: 0.6})
+        workspace.on('mousemove', moveGhostLine)
     }
     else {
         wire.create(startWire, connector)
-        startWire = null
+        abortWire()
     }
+})
+
+canvas.on('escape', () => {
+    if(startWire) abortWire()
 })
 
 document.getElementById('AND').addEventListener('click', event => {
