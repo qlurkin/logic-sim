@@ -5,8 +5,13 @@ import INPUT from './INPUT.js'
 import OUTPUT from './OUTPUT.js'
 import wire from './wire.js'
 import { showMenu } from './menu.js'
+import free_connector from './free_connector.js'
 
-const {inputSide, outputSide, wires} = init()
+const {inputSide, outputSide, workspace, wires} = init()
+
+workspace.on('click', event => {
+    free_connector.create(canvas, event.offsetX, event.offsetY)
+})
 
 inputSide.on('click', event => {
     const y = event.offsetY-1
