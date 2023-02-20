@@ -1,6 +1,7 @@
 import { snapX, snapY } from './canvas.js'
 import {step} from './config.js'
 import {UiConnector} from './connector.js'
+import { addElement, removeElement } from './current.js'
 import { draggable } from './draggable.js'
 import { showMenu } from './menu.js'
 
@@ -53,6 +54,7 @@ export function UiChip(canvas, label, inputs, outputs, color) {
                 uiConnector.destroy()
             }
             group.remove()
+            removeElement(that)
         },
         move: (x, y) => {
             x = snapX(x)
@@ -80,6 +82,7 @@ export function UiChip(canvas, label, inputs, outputs, color) {
         ])
         event.preventDefault()
     })
-
+    
+    addElement(that)
     return that
 }

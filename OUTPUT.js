@@ -2,6 +2,7 @@ import { Connector, UiConnector } from './connector.js'
 import { outerWidth, snapY } from './canvas.js'
 import { draggable } from './draggable.js'
 import { showMenu } from './menu.js'
+import { addElement, removeElement } from './current.js'
 
 function Output() {
     const connector = Connector('')
@@ -34,8 +35,10 @@ function ui(canvas, logic) {
     })
 
     function destroy() {
-        logic.connector.destroy()
+        //logic.connector.destroy()
+        uiConnector.destroy()
         group.remove()
+        removeElement(that)
     }
 
     const that = {
@@ -48,7 +51,7 @@ function ui(canvas, logic) {
         off: (eventType, handler) => {
             big.off(eventType, handler)
         },
-        move: (x, y) => {
+        move: (_, y) => {
             y = snapY(y)
             _y = y
             line.plot(outerWidth()-20, y, outerWidth()-36, y)
@@ -73,6 +76,7 @@ function ui(canvas, logic) {
         event.preventDefault()
     })
 
+    addElement(that)
     return that
 }
 

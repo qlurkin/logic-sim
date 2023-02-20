@@ -2,6 +2,7 @@ import free_connector from './free_connector.js'
 import { showMenu } from './menu.js'
 import { Color } from './svg.esm.js'
 import { canvas as rootCanvas, wires } from './canvas.js'
+import { addElement, removeElement } from './current.js'
 
 export function Wire(a, b) {
     function aObserver(state) {
@@ -63,6 +64,7 @@ function ui(canvas, uiConnector0, uiConnector1, wire) {
         wire.destroy()
         line.remove()
         outline.remove()
+        removeElement(that)
     }
 
     uiConnector0.on('destroy', destroy)
@@ -96,6 +98,7 @@ function ui(canvas, uiConnector0, uiConnector1, wire) {
         event.stopPropagation()
     })
 
+    addElement(that)
     return that
 }
 
@@ -109,3 +112,4 @@ export default {
     ui,
     create
 }
+

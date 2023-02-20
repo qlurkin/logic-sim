@@ -3,6 +3,7 @@ import {UiConnector} from './connector.js'
 import { draggable } from './draggable.js'
 import { showMenu } from './menu.js'
 import { Connector } from './connector.js'
+import { addElement, removeElement } from './current.js'
 
 function free_connector() {
     const connector = Connector('')
@@ -33,6 +34,7 @@ function ui(canvas, logic) {
         destroy: () => {
             uiConnector.destroy()
             group.remove()
+            removeElement(that)
         },
         move: (x, y) => {
             x = snapX(x)
@@ -61,7 +63,8 @@ function ui(canvas, logic) {
         ])
         event.preventDefault()
     })
-
+    
+    addElement(that)
     return that
 }
 

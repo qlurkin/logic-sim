@@ -3,6 +3,7 @@ import { observable } from './observable.js'
 import { showMenu } from './menu.js'
 import { draggable } from './draggable.js'
 import { snapY } from './canvas.js'
+import { addElement, removeElement } from './current.js'
 
 function Input() {
     let state = observable(false)
@@ -66,6 +67,7 @@ function ui(canvas, logic) {
         big.off('click', click)
         uiConnector.destroy()
         group.remove()
+        removeElement(that)
     }
 
     const that = {
@@ -78,7 +80,7 @@ function ui(canvas, logic) {
         off: (eventType, handler) => {
             big.off(eventType, handler)
         },
-        move: (x, y) => {
+        move: (_, y) => {
             y = snapY(y)
             _y = y
             line.plot(20, y, 36, y)
@@ -102,7 +104,8 @@ function ui(canvas, logic) {
         ])
         event.preventDefault()
     })
-
+    
+    addElement(that)
     return that
 }
 
