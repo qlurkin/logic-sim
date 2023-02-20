@@ -1,3 +1,5 @@
+import { gridX, gridY } from "./canvas.js"
+
 const elements = []
 
 function nextId() {
@@ -43,8 +45,8 @@ export function toJson() {
     }
 
     if(elm.type !== 'WIRE') {
-      obj.x = elm.x()
-      obj.y = elm.y()
+      obj.x = gridX(elm.x())
+      obj.y = gridY(elm.y())
     }
     else {
       obj.ends = []

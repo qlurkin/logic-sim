@@ -44,7 +44,7 @@ function ui(canvas, logic) {
 
     that.type = 'OUTPUT'
     that.destroy = destroy
-    that.x = () => outerWidth()-20
+    that.x = () => uiConnector.x()
     that.y = () => _y
     that.on = (eventType, handler) => {
             big.on(eventType, handler)
