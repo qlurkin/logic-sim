@@ -24,7 +24,7 @@ export function addElement(element) {
   element.id = id
   elements.push(element)
   setTimeout(() => {
-    console.log(toJson())
+    console.log(toObj())
   }, 100)
 }
 
@@ -32,33 +32,27 @@ export function removeElement(element) {
   const index = elements.findIndex(item => item == element)
   elements.splice(index, 1)
   setTimeout(() => {
-    console.log(toJson())
+    console.log(toObj())
   }, 100)
 }
 
-export function toJson() {
+export function toObj() {
   const res = []
   for(const elm of elements) {
-    const obj = {
-      id: elm.id,
-      type: elm.type,
-    }
-
-    if(elm.type !== 'WIRE') {
-      obj.x = gridX(elm.x())
-      obj.y = gridY(elm.y())
-    }
-    else {
-      obj.ends = []
-      for(const end of elm.ends) {
-        obj.ends.push({
-          element: end.element.id,
-          connector: end.getLabel()
-        })
-      }
-    }
-
+    const obj = elm.toObj()
     res.push(obj)
   }
   return res
+}
+
+export function toJson() {
+  return JSON.stringify(toObj())
+}
+
+export function fromObj(objs) {
+
+}
+
+export function fromJson(json) {
+  fromObj(JSON.parse(json))
 }

@@ -4,7 +4,7 @@ import NOT from './NOT.js'
 import INPUT from './INPUT.js'
 import OUTPUT from './OUTPUT.js'
 import wire from './wire.js'
-import free_connector from './free_connector.js'
+import free_connector from './CONNECT.js'
 
 workspace.on('click', event => {
     const fc = free_connector.create(canvas, event.offsetX, event.offsetY)
