@@ -2,10 +2,10 @@ import { Connector, UiConnector } from './connector.js'
 import { outerWidth, snapY } from './canvas.js'
 import { draggable } from './draggable.js'
 import { showMenu } from './menu.js'
-import { addElement, removeElement } from './current.js'
+import { addElement, nextOutput, removeElement } from './current.js'
 
-function Output() {
-    const connector = Connector('')
+function Output(label) {
+    const connector = Connector(label)
 
     return {
         connector
@@ -14,9 +14,10 @@ function Output() {
 
 function ui(canvas, logic) {
     let _y = 0
+    const that = {}
     const group = canvas.group()
     const line = group.line(outerWidth()-20, _y, outerWidth()-36, _y).stroke({color: 'black', width: 3})
-    const uiConnector = UiConnector(group, -18, 0, logic.connector)
+    const uiConnector = UiConnector(group, -18, 0, that, logic.connector)
     const big = group.circle(20)
 
     logic.connector.connect(state => {
@@ -41,23 +42,25 @@ function ui(canvas, logic) {
         removeElement(that)
     }
 
-    const that = {
-        destroy,
-        x: () => outerWidth()-20,
-        y: () => _y,
-        on: (eventType, handler) => {
+    that.type = 'OUTPUT'
+    that.destroy = destroy
+    that.x = () => outerWidth()-20
+    that.y = () => _y
+    that.on = (eventType, handler) => {
             big.on(eventType, handler)
-        },
-        off: (eventType, handler) => {
+        }
+    that.off = (eventType, handler) => {
             big.off(eventType, handler)
         },
-        move: (_, y) => {
+    that.move = (_, y) => {
             y = snapY(y)
             _y = y
             line.plot(outerWidth()-20, y, outerWidth()-36, y)
             uiConnector.move(outerWidth()-20, y)
             big.center(outerWidth()-20, y)
         }
+    that.getLabel = () => {
+      return uiConnector.getLabel()
     }
 
     draggable(that, false)
@@ -81,7 +84,7 @@ function ui(canvas, logic) {
 }
 
 function create(canvas, y) {
-    const logic = Output()
+    const logic = Output(nextOutput())
     return ui(canvas, logic).move(0, y)
 }
 

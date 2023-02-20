@@ -24,6 +24,7 @@ export function NOT() {
 
 function ui(canvas, x, y, logic) {
     const element = UiChip(canvas, 'NOT', logic.inputs, logic.outputs, '#f55').move(x, y)
+    element.type = 'NOT'
     return element
 }
 

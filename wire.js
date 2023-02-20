@@ -71,6 +71,7 @@ function ui(canvas, uiConnector0, uiConnector1, wire) {
     uiConnector1.on('destroy', destroy)
 
     const that = {
+        type: 'WIRE',
         ends: [
             uiConnector0,
             uiConnector1
