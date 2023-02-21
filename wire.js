@@ -2,7 +2,8 @@ import free_connector from './CONNECT.js'
 import { showMenu } from './menu.js'
 import { Color } from './svg.esm.js'
 import { canvas as rootCanvas, wires } from './canvas.js'
-import { addElement, removeElement } from './current.js'
+import { addElement, findConnector, removeElement, dirty } from './current.js'
+import { UiConnector } from './connector.js'
 
 export function Wire(a, b) {
   function aObserver(state) {
@@ -26,7 +27,7 @@ export function Wire(a, b) {
   }
 }
 
-function ui(canvas, uiConnector0, uiConnector1, wire) {
+function ui(canvas, uiConnector0, uiConnector1, wire, id) {
   const group = canvas.group()
   const line = group.line(uiConnector0.x(), uiConnector0.y(), uiConnector1.x(), uiConnector1.y())
   const outline = group.line(uiConnector0.x(), uiConnector0.y(), uiConnector1.x(), uiConnector1.y()).stroke({color: 'cyan', opacity: 0, width: 7}).addClass('outline')
@@ -113,18 +114,34 @@ function ui(canvas, uiConnector0, uiConnector1, wire) {
     event.stopPropagation()
   })
 
-  addElement(that)
+  addElement(that, id)
   return that
 }
 
 function create(uiConnector0, uiConnector1) {
   const logic = Wire(uiConnector0.connector, uiConnector1.connector)
-  return ui(wires, uiConnector0, uiConnector1, logic)
+  const elem = ui(wires, uiConnector0, uiConnector1, logic)
+  dirty()
+  return elem
+}
+
+function logicFromObj(obj) {
+  return null
+}
+
+function createFromObj(canvas, obj) {
+  const uiConnector0 = findConnector(obj.ends[0].element, obj.ends[0].connector)
+  const uiConnector1 = findConnector(obj.ends[1].element, obj.ends[1].connector)
+  const logic = Wire(uiConnector0.connector, uiConnector1.connector)
+  const elem = ui(wires, uiConnector0, uiConnector1, logic, obj.id)
+  return elem
 }
 
 export default {
   logic: Wire,
   ui,
-  create
+  create,
+  createFromObj,
+  logicFromObj,
 }
 

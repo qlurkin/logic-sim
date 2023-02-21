@@ -5,6 +5,7 @@ import INPUT from './INPUT.js'
 import OUTPUT from './OUTPUT.js'
 import wire from './wire.js'
 import free_connector from './CONNECT.js'
+import { fromJson } from './current.js'
 
 workspace.on('click', event => {
     const fc = free_connector.create(canvas, event.offsetX, event.offsetY)
@@ -72,6 +73,8 @@ window.addEventListener('keydown', event => {
         canvas.fire('escape')
     }
 })
+
+fromJson(localStorage.getItem('current'))
 
 // let ghost = null
 // let state = 'normal'

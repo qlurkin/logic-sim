@@ -1,4 +1,4 @@
-import { gridX, gridY } from "./canvas.js"
+import { gridX, gridY, canvas } from "./canvas.js"
 
 const elements = []
 
@@ -9,31 +9,50 @@ function nextId() {
 
 export function nextInput() {
   const inputs = elements.filter(elm => elm.type === 'INPUT')
+  const nums = inputs.map(elm => parseInt(elm.getLabel().slice(2), 10)).filter(elm => !isNaN(elm))
   if(inputs.length === 0) return "in0"
-  return `in${Math.max(...inputs.map(elm => parseInt(elm.getLabel().slice(2), 10)))+1}`
+  return `in${Math.max(...nums)+1}`
 }
 
 export function nextOutput() {
   const outputs = elements.filter(elm => elm.type === 'OUTPUT')
+  const nums = outputs.map(elm => parseInt(elm.getLabel().slice(3), 10)).filter(elm => !isNaN(elm))
   if(outputs.length === 0) return "out0"
-  return `out${Math.max(...outputs.map(elm => parseInt(elm.getLabel().slice(3), 10)))+1}`
+  return `out${Math.max(...nums)+1}`
 }
 
-export function addElement(element) {
-  const id = nextId()
+export function findConnector(chipId, connectorLabel) {
+  return elements.find(elm => elm.id === chipId).getConnector(connectorLabel)
+}
+
+export function addElement(element, id) {
+  if(!id) id = nextId()
   element.id = id
   elements.push(element)
-  setTimeout(() => {
-    console.log(toObj())
-  }, 100)
+  dirty()
 }
 
 export function removeElement(element) {
   const index = elements.findIndex(item => item == element)
   elements.splice(index, 1)
-  setTimeout(() => {
-    console.log(toObj())
+  dirty()
+}
+
+let cleaning = null
+
+export function dirty() {
+  if(cleaning) {
+    clearTimeout(cleaning)
+  }
+  cleaning = setTimeout(() => {
+    clean()
+    cleaning = null
   }, 100)
+}
+
+function clean() {
+  console.log(toObj())
+  localStorage.setItem('current', toJson())
 }
 
 export function toObj() {
@@ -50,7 +69,15 @@ export function toJson() {
 }
 
 export function fromObj(objs) {
-
+  for(const obj of objs) {
+    import(`./${obj.type}.js`)
+      .then(ELM => {
+        ELM.default.createFromObj(canvas, obj)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
 }
 
 export function fromJson(json) {

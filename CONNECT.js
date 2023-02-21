@@ -1,9 +1,9 @@
-import { snapX, snapY } from './canvas.js'
-import {UiConnector} from './connector.js'
+import { grid2X, grid2Y, snapX, snapY } from './canvas.js'
+import { UiConnector } from './connector.js'
 import { draggable } from './draggable.js'
 import { showMenu } from './menu.js'
 import { Connector } from './connector.js'
-import { addElement, removeElement } from './current.js'
+import { addElement, dirty, removeElement } from './current.js'
 import { gridX, gridY } from './canvas.js'
 
 function free_connector() {
@@ -14,7 +14,7 @@ function free_connector() {
   }
 }
 
-function ui(canvas, logic) {
+function ui(canvas, logic, id) {
   let _x = 0
   let _y = 0
   const that = {}
@@ -54,6 +54,9 @@ function ui(canvas, logic) {
       y: gridY(that.y())
     }
   }
+  that.getConnector = label => {
+    return uiConnector
+  }
 
   draggable(that, false)
 
@@ -73,17 +76,30 @@ function ui(canvas, logic) {
     event.preventDefault()
   })
 
-  addElement(that)
+  addElement(that, id)
   return that
 }
 
 function create(canvas, x, y) {
   const logic = free_connector()
-  return ui(canvas, logic).move(x, y)
+  const elem = ui(canvas, logic).move(x, y)
+  dirty()
+  return elem
+}
+
+function logicFromObj(obj) {
+  return null
+}
+
+function createFromObj(canvas, obj) {
+  const logic = free_connector()
+  return ui(canvas, logic, obj.id).move(grid2X(obj.x), grid2Y(obj.y))
 }
 
 export default {
   logic: free_connector,
   ui,
   create,
+  logicFromObj,
+  createFromObj,
 }

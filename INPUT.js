@@ -2,9 +2,10 @@ import { Connector, UiConnector } from './connector.js'
 import { observable } from './observable.js'
 import { showMenu } from './menu.js'
 import { draggable } from './draggable.js'
-import { snapY } from './canvas.js'
-import { addElement, nextInput, removeElement } from './current.js'
+import { grid2X, grid2Y, snapY } from './canvas.js'
+import { addElement, dirty, nextInput, removeElement } from './current.js'
 import { gridX, gridY } from './canvas.js'
+import { step } from './config.js'
 
 function Input(label) {
   let state = observable(false)
@@ -36,7 +37,7 @@ function Input(label) {
   }
 }
 
-function ui(canvas, logic) {
+function ui(canvas, logic, id) {
   let _y = 0
   const that = {}
   const group = canvas.group()
@@ -96,9 +97,13 @@ function ui(canvas, logic) {
     return {
       id: that.id,
       type: that.type,
+      label: uiConnector.getLabel(),
       x: gridX(that.x()),
       y: gridY(that.y())
     }
+  }
+  that.getConnector = label => {
+    return uiConnector
   }
 
   draggable(that, false)
@@ -106,6 +111,7 @@ function ui(canvas, logic) {
   function rename() {
     const value = prompt("Input Label", uiConnector.getLabel())
     if(value) uiConnector.setLabel(value)
+    dirty()
   }
 
   big.on('contextmenu', event => {
@@ -117,17 +123,31 @@ function ui(canvas, logic) {
     event.preventDefault()
   })
 
-  addElement(that)
+  addElement(that, id)
   return that
 }
 
 function create(canvas, y) {
   const logic = Input(nextInput())
-  return ui(canvas, logic).move(0, y)
+  const elem = ui(canvas, logic).move(0, y)
+  dirty()
+  return elem
+}
+
+function logicFromObj(obj) {
+  return null
+}
+
+function createFromObj(canvas, obj) {
+  const logic = Input(obj.label)
+  const elem = ui(canvas, logic, obj.id).move(grid2X(obj.x), grid2Y(obj.y))
+  return elem
 }
 
 export default {
   logic: Input,
   ui,
   create,
+  logicFromObj,
+  createFromObj,
 }

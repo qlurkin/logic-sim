@@ -1,7 +1,8 @@
-import { timing } from './config.js'
+import { step, timing } from './config.js'
 import { Connector } from './connector.js'
 import { UiChip } from './ui_chip.js'
-import { gridX, gridY } from './canvas.js'
+import { grid2X, grid2Y, gridX, gridY } from './canvas.js'
+import { dirty } from './current.js'
 
 function AND() {
   const in0 = Connector('in0')
@@ -16,37 +17,51 @@ function AND() {
     }, timing)
   }
 
-    in0.connect(observer)
-      in1.connect(observer)
-    out.connect(observer)
+  in0.connect(observer)
+  in1.connect(observer)
+  out.connect(observer)
 
+  return {
+    inputs: [in0, in1],
+    outputs: [out]
+  }
+}
+
+function ui(canvas, x, y, logic, id) {
+  const element = UiChip(canvas, 'AND', logic.inputs, logic.outputs, 'yellow', id).move(x, y)
+  element.type = 'AND'
+  element.toObj = () => {
     return {
-      inputs: [in0, in1],
-      outputs: [out]
+      id: element.id,
+      type: element.type,
+      x: gridX(element.x()),
+      y: gridY(element.y())
     }
   }
 
-  function ui(canvas, x, y, logic) {
-    const element = UiChip(canvas, 'AND', logic.inputs, logic.outputs).move(x, y)
-    element.type = 'AND'
-    element.toObj = () => {
-      return {
-        id: element.id,
-        type: element.type,
-        x: gridX(element.x()),
-        y: gridY(element.y())
-      }
-    }
-    return element
-  }
+  return element
+}
 
-  function create(canvas, x, y) {
-    const logic = AND()
-    return ui(canvas, x, y, logic)
-  }
+function create(canvas, x, y) {
+  const logic = AND()
+  const elem = ui(canvas, x, y, logic)
+  dirty()
+  return elem
+}
 
-  export default {
-    logic: AND,
-    ui,
-    create,
-  }
+function logicFromObj(obj) {
+  return null
+}
+
+function createFromObj(canvas, obj) {
+  const logic = AND()
+  return ui(canvas, grid2X(obj.x), grid2Y(obj.y), logic, obj.id)
+}
+
+export default {
+  logic: AND,
+  ui,
+  create,
+  logicFromObj,
+  createFromObj,
+}
