@@ -87,12 +87,12 @@ function create(canvas, x, y) {
   return elem
 }
 
-function logicFromObj(obj) {
-  return null
+function logicFromObj(_obj) {
+  return free_connector()
 }
 
 function createFromObj(canvas, obj) {
-  const logic = free_connector()
+  const logic = logicFromObj(obj)
   return ui(canvas, logic, obj.id).move(grid2X(obj.x), grid2Y(obj.y))
 }
 

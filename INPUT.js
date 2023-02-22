@@ -135,11 +135,11 @@ function create(canvas, y) {
 }
 
 function logicFromObj(obj) {
-  return null
+  return Input(obj.label)
 }
 
 function createFromObj(canvas, obj) {
-  const logic = Input(obj.label)
+  const logic = logicFromObj(obj)
   const elem = ui(canvas, logic, obj.id).move(grid2X(obj.x), grid2Y(obj.y))
   return elem
 }

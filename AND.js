@@ -1,4 +1,4 @@
-import { step, timing } from './config.js'
+import { timing } from './config.js'
 import { Connector } from './connector.js'
 import { UiChip } from './ui_chip.js'
 import { grid2X, grid2Y, gridX, gridY } from './canvas.js'
@@ -49,12 +49,12 @@ function create(canvas, x, y) {
   return elem
 }
 
-function logicFromObj(obj) {
-  return null
+function logicFromObj(_obj) {
+  return AND()
 }
 
 function createFromObj(canvas, obj) {
-  const logic = AND()
+  const logic = logicFromObj(obj)
   return ui(canvas, grid2X(obj.x), grid2Y(obj.y), logic, obj.id)
 }
 

@@ -80,6 +80,13 @@ export function fromObj(objs) {
   }
 }
 
+export function clear() {
+  for(const element of [...elements]) {
+    if(element.type !== 'WIRE')
+      element.destroy()
+  }
+}
+
 export function fromJson(json) {
   fromObj(JSON.parse(json))
 }

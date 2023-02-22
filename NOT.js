@@ -45,12 +45,12 @@ function create(canvas, x, y) {
   return elem
 }
 
-function logicFromObj(obj) {
-  return null
+function logicFromObj(_obj) {
+  return NOT()
 }
 
 function createFromObj(canvas, obj) {
-  const logic = NOT()
+  const logic = logicFromObj(obj)
   return ui(canvas, grid2X(obj.x), grid2Y(obj.y), logic, obj.id)
 }
 
