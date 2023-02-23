@@ -1,7 +1,7 @@
 import { snapX, snapY } from './canvas.js'
 import {step} from './config.js'
 import {UiConnector} from './connector.js'
-import { addElement, dirty, removeElement } from './current.js'
+import { addElement, removeElement } from './current.js'
 import { draggable } from './draggable.js'
 import { showMenu } from './menu.js'
 

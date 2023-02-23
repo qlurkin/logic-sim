@@ -2,7 +2,7 @@ import { clear, fromObj, toObj } from "./current.js"
 import { showMenu } from "./menu.js"
 import { getAbsoluteGeometry } from "./utils.js"
 import COMPOUND from "./COMPOUND.js"
-import { canvas, offsetX } from "./canvas.js"
+import { canvas } from "./canvas.js"
 
 const chips = {}
 

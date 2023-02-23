@@ -5,7 +5,6 @@ import { draggable } from './draggable.js'
 import { grid2X, grid2Y, snapY } from './canvas.js'
 import { addElement, dirty, nextInput, removeElement } from './current.js'
 import { gridX, gridY } from './canvas.js'
-import { step } from './config.js'
 
 function Input(label) {
   let state = observable(false)
@@ -102,7 +101,7 @@ function ui(canvas, logic, id) {
       y: gridY(that.y())
     }
   }
-  that.getConnector = label => {
+  that.getConnector = _label => {
     return uiConnector
   }
 
