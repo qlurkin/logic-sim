@@ -8,7 +8,7 @@ import free_connector from './CONNECT.js'
 import { clear, fromJson, getCurrentColor, getCurrentDescription, getCurrentName, setCurrentColor, setCurrentDescription, setCurrentName } from './current.js'
 import { loadLibrary, saveCurrent } from './library.js'
 import { colorPicker } from './colorPicker.js'
-import { modal } from './modal.js'
+import { form_modal } from './modal.js'
 
 workspace.on('click', event => {
     if(startWire) {
@@ -74,7 +74,7 @@ document.getElementById('SAVE').addEventListener('click', _event => {
     setCurrentName(name)
   }
   saveCurrent()*/
-  modal(document.getElementById('chip-modal'), {name: getCurrentName(), description: getCurrentDescription(), color: getCurrentColor()}, data => {
+  form_modal(document.getElementById('chip-modal'), {name: getCurrentName(), description: getCurrentDescription(), color: getCurrentColor()}, data => {
     setCurrentName(data.name)
     setCurrentColor(data.color)
     setCurrentDescription(data.description)

@@ -5,6 +5,7 @@ import { draggable } from './draggable.js'
 import { grid2X, grid2Y, snapY } from './canvas.js'
 import { addElement, dirty, nextInput, removeElement } from './current.js'
 import { gridX, gridY } from './canvas.js'
+import { prompt } from './modal.js'
 
 function Input(label) {
   let state = observable(false)
@@ -108,9 +109,10 @@ function ui(canvas, logic, id) {
   draggable(that, false)
 
   function rename() {
-    const value = prompt("Input Label", uiConnector.getLabel())
-    if(value) uiConnector.setLabel(value)
-    dirty()
+    prompt("Input Label", uiConnector.getLabel(), value => {
+      if(value) uiConnector.setLabel(value)
+      dirty()
+    })
   }
 
   big.on('contextmenu', event => {
