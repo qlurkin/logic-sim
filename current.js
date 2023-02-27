@@ -34,7 +34,6 @@ export function nextOutput() {
 }
 
 export function findConnector(chipId, connectorLabel) {
-  console.log(chipId, connectorLabel)
   return current.elements.find(elm => elm.id === chipId).getConnector(connectorLabel)
 }
 
