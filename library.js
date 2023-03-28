@@ -4,11 +4,17 @@ import { getAbsoluteGeometry } from "./utils.js"
 import COMPOUND from "./COMPOUND.js"
 import { canvas } from "./canvas.js"
 import { alert } from "./modal.js"
+import { download } from "./utils.js"
 
 const chips = {}
 
 function saveLibrary() {
   localStorage.setItem('library', JSON.stringify(chips))
+}
+
+export function exportLibrary() {
+  const content = localStorage.getItem('library')
+  download('library.json', content)
 }
 
 export function loadLibrary() {
