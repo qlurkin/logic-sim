@@ -17,6 +17,15 @@ export function exportLibrary() {
   download('library.json', content)
 }
 
+export function importLibrary(content) {
+  clear()
+  for (const prop of Object.getOwnPropertyNames(chips)) {
+    delete chips[prop];
+  }
+  localStorage.setItem('library', content)
+  loadLibrary()
+}
+
 export function loadLibrary() {
   Object.assign(chips, JSON.parse(localStorage.getItem('library')))
   console.log(chips)

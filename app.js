@@ -8,9 +8,9 @@ import LED from './LED.js'
 import DELAY from './DELAY.js'
 import free_connector from './CONNECT.js'
 import { clear, fromJson, getCurrentColor, getCurrentDescription, getCurrentName, setCurrentColor, setCurrentDescription, setCurrentName } from './current.js'
-import { exportLibrary, loadLibrary, saveCurrent } from './library.js'
+import { exportLibrary, importLibrary, loadLibrary, saveCurrent } from './library.js'
 import { colorPicker } from './colorPicker.js'
-import { form_modal, prompt } from './modal.js'
+import { file, form_modal, prompt } from './modal.js'
 import TEXT from './TEXT.js'
 import { showMenu } from './menu.js'
 
@@ -34,6 +34,11 @@ workspace.on('contextmenu', event => {
       })
     }},
     {label: 'Export', action: exportLibrary},
+    {label: 'Import', action: () => {
+      file(content => {
+        importLibrary(content)
+      })
+    }},
     {label: 'Clear', action: clear},
   ])
   event.preventDefault()
